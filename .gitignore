@@ -3,7 +3,7 @@ node_modules/
 **/node_modules/
 
 # Ignore all .env.prod and .env.dev files at any level
-.env.prod
+.env.production
 .env.dev
 **/.env.prod
 **/.env.dev
@@ -62,9 +62,9 @@ coverage/
 Thumbs.db
 
 # Build output
-dist/
-build/
-out/
+# dist/
+# build/
+# out/
 
 # IDEs
 .idea/
@@ -103,7 +103,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# dist
 dist-ssr
 *.local
 

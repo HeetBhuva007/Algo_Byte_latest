@@ -1,14 +1,11 @@
 import axios from "axios"
-//http://localhost:3000
-//https://algo-byte.onrender.com
-const axiosClient =  axios.create({
-    // baseURL: 'https://algo-byte.onrender.com',
-    baseURL : "http://localhost:3000",
+
+const axiosClient = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }
 });
-
 
 export default axiosClient;
