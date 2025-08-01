@@ -215,8 +215,10 @@ const getProblemById=async (req,res)=>{
                 }
             if(!problemNeededByUser)
                 throw new Error("Problem is not present");
+
+            const responseData2={...problemNeededByUser}
             
-            res.status(201).send(problemNeededByUser)
+            res.status(201).send(responseData2)
         }
         else
         {
