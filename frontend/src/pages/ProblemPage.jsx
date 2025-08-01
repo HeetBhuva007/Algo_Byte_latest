@@ -1392,7 +1392,7 @@ const EditorPanel = memo(
         </Resizable>
 
         {/* Console Panel */}
-        <div className="flex-shrink">
+        <div className="flex-1 flex flex-col min-h-0">
           <ConsolePanel
             problem={problem}
             code={code}
@@ -1586,7 +1586,7 @@ const ConsolePanel = memo(
     ]);
 
     return (
-      <div className="flex-1 flex flex-col min-h-20 bg-gray-50/50 dark:bg-gray-900/50 border-t-2 border-gray-200 dark:border-white rounded-b-xl">
+      <div className="flex-1 flex flex-col min-h-20 bg-gray-50/50 dark:bg-gray-900/50 border-t-2 border-gray-200 dark:border-white rounded-b-xl h-full">
         {/* Professional Console Header */}
         <div className="p-3 flex min-h-20 justify-between items-center border-b-2 border-gray-200 dark:border-gray-900 bg-white/50 dark:bg-black/50">
           <div className="flex gap-2">
@@ -1732,7 +1732,7 @@ const ConsolePanel = memo(
           )}
 
           {consoleTab === "result" && (
-            <div className="font-mono text-xs space-y-4">
+            <div className="font-mono text-xs space-y-4 overflow-y-auto max-h-full">
               {Object.values(runStatus).includes("loading") ? (
                 <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300 justify-center py-8">
                   <LoadingSpinner className="h-4 w-4" />
@@ -1741,10 +1741,10 @@ const ConsolePanel = memo(
                   </span>
                 </div>
               ) : runResult ? (
-                <div className="space-y-4">
+                <div className="space-y-4 overflow-y-auto">
                   {runResult.map((result, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center gap-3">
+                    <div key={index} className="space-y-2 overflow-y-auto">
+                      <div className="flex items-center gap-3 overflow-y-auto">
                         {runStatus[index] === "accepted" ? (
                           <CheckIcon className="w-4 h-4" />
                         ) : (
@@ -1758,7 +1758,7 @@ const ConsolePanel = memo(
                       </div>
 
                       {runStatus[index] === "failed" && result.stderr && (
-                        <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-400 border-2 border-red-300 dark:border-red-700 shadow-lg">
+                        <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-400 border-2 border-red-300 dark:border-red-700 shadow-lg overflow-y-auto">
                           <div className="text-xs font-bold text-red-700 dark:text-red-400 mb-1 uppercase tracking-wide">
                             Error
                           </div>
@@ -2299,7 +2299,7 @@ const ProblemContent = memo(
                 {submissionResult.status === "accepted" ? (
                   <CheckIcon className="w-8 h-8" />
                 ) : (
-                  <CrossIcon className="w-8 h-8" />
+                  <CrossIcon/>
                 )}
                 <div>
                   <h3
