@@ -291,7 +291,7 @@ const resetPassword=async(req,res)=>{
        
         const user = await User.findOne({emailId:emailId})
 
-        const token = jwt.sign({_id:user._id},process.env.JWT_KEY,{expiresIn: "3600s"})
+        const token = jwt.sign({_id:user._id},process.env.JWT_KEY,{expiresIn: "600s"})
         
 
         const result=await redisClient.setEx(`reset:${emailId}`, 3600, token);
@@ -301,7 +301,7 @@ const resetPassword=async(req,res)=>{
                 from:"heetbhuva1405@gmail.com",
                 to:emailId,
                 subject:"Sending an email",
-                text:`This link will expires in 2 MINUTES https://algobyte.live/forgotpassword/${user._id}/${token}`
+                text:`This link will expires in 10 MINUTES https://algobyte.live/forgotpassword/${user._id}/${token}`
             }
 
             transporter.sendMail(mailOptions,(error,info)=>{

@@ -65,12 +65,9 @@ export function ResetPassword() {
         <div className="text-center mb-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-2xl font-bold text-black dark:text-white hover:scale-105 transition-all duration-300 mb-6"
+            className="inline-flex items-center gap-2 text-2xl font-bold text-amber-500 dark:text-amber-400 hover:scale-105 transition-all duration-300 mb-6"
           >
-            <div className="p-2 rounded-xl bg-gray-100 dark:bg-white shadow-lg">
-              <Code className="w-6 h-6 text-black dark:text-black" />
-            </div>
-            YourCode
+            AlgoByte
           </Link>
           <h1 className="text-3xl md:text-4xl font-black text-black dark:text-white mb-3">Reset Password</h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">

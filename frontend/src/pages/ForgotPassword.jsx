@@ -8,10 +8,11 @@ import { Lock, ArrowRight, Code, CheckCircle } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { useEffect, useState } from "react"
-import { useNavigate, Link } from "react-router"
+import { useNavigate, Link } from "react-router-dom"
+
 
 import axiosClient from "../utils/axiosClient"
-import { useParams } from "react-router"
+import { useParams } from "react-router-dom"
 
 const loginSchema = z.object({
   password: z
@@ -30,14 +31,17 @@ const loginSchema = z.object({
 })
 
 export function ForgotPassword() {
-  const [rememberMe, setRememberMe] = useState(false)
+
+  
   const [successMessage, setSuccessMessage] = useState("")
   const [isUpdating, setIsUpdating] = useState(false)
-  const dispatch = useDispatch()
+  
   const { isAuthenticated, loading, error } = useSelector((state) => state.auth)
   const navigate = useNavigate()
+  const [validating, setValidating] = useState(true);
 
   const { id, token } = useParams()
+  
 
   const userValid = async () => {
     
@@ -45,9 +49,10 @@ export function ForgotPassword() {
       const res = await axiosClient.get(`/user/forgotpassword/${id}/${token}`)
      
       const data = res.data
+      
 
       if (data.status == 201) {
-       
+        setValidating(false);
       } else {
         navigate("*")
       }
@@ -94,6 +99,14 @@ export function ForgotPassword() {
     }
   }
 
+  if (validating) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <div className="w-6 h-6 border-4 border-black/20 border-t-black rounded-full animate-spin dark:border-white/20 dark:border-t-white"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-black dark:via-gray-900 dark:to-black flex items-center justify-center px-4 py-8 relative overflow-hidden">
       
@@ -108,12 +121,10 @@ export function ForgotPassword() {
         <div className="text-center mb-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-2xl font-bold text-black dark:text-white hover:scale-105 transition-all duration-300 mb-6"
+            className="inline-flex items-center gap-2 text-2xl font-bold text-amber-500 dark:text-amber-400 hover:scale-105 transition-all duration-300 mb-6"
           >
-            <div className="p-2 rounded-xl bg-gray-100 dark:bg-white shadow-lg">
-              <Code className="w-6 h-6 text-black dark:text-black" />
-            </div>
-            YourCode
+            
+            AlgoByte
           </Link>
           <h1 className="text-3xl md:text-4xl font-black text-black dark:text-white mb-3">Enter New Password</h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Enter your new password</p>

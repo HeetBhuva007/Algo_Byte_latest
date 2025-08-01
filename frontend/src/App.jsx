@@ -56,15 +56,18 @@ function App(){
     }
   }, [location.pathname, dispatch]);
   
+  const isForgotPasswordRoute = /^\/forgotpassword\/[^/]+\/[^/]+$/.test(location.pathname);
+
 
   if (loading) {
+    
     return <div className="min-h-screen flex items-center justify-center">
       <span className="loading loading-spinner loading-lg"></span>
     </div>;
   }
 
 
-  if(isAuthenticated==undefined){
+  if(!isForgotPasswordRoute&&isAuthenticated==undefined){
     return <div className="min-h-screen flex items-center justify-center">
       <span className="loading loading-spinner loading-lg"></span>
     </div>;
