@@ -30,7 +30,7 @@ const server = http.createServer(app); //  correct usage
 const io = new Server(server, {
   cors: {
     // origin: "https://algo-byte-seven.vercel.app", // frontend origin
-    origin : "http://localhost:5173",
+    origin : "https://algobyte.live",
     credentials: true,
   },
 });
@@ -50,7 +50,7 @@ app.get('/health', (req, res) => {
 //  Middlewares
 app.use(cors({
   // origin: 'https://algo-byte-seven.vercel.app',
-  origin : "http://localhost:5173",
+  origin : "https://algobyte.live",
   credentials: true,
 }));
 
