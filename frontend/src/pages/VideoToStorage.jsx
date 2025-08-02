@@ -6,6 +6,8 @@ import { useNavigate, useParams,Link } from "react-router-dom"
 import logo from "../Images/logo.png"
 import axiosClient from "../utils/axiosClient"
 import { Sun, Moon, Code, Upload, Video, Check, ArrowLeft, CloudUpload, FileVideo, X } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux";
+import { setMode } from "../authSlice";
 
 // --- Success Modal Component ---
 const SuccessModal = ({ isVisible, onClose, problemTitle }) => {
@@ -316,7 +318,9 @@ export function VideoToStorage() {
   const [problem, setProblem] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  const darkMode=useSelector(state=>state.auth.isDark)
+ // const [darkMode, setDarkMode] = useState(false)
   const [selectedFile, setSelectedFile] = useState(null)
   const [isDragOver, setIsDragOver] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -481,7 +485,7 @@ export function VideoToStorage() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={() => dispatch(setMode(!darkMode))}
               className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-110 group border border-gray-200 dark:border-gray-600"
               title="Toggle theme"
             >

@@ -141,9 +141,9 @@ const login=async (req,res)=>{
         }
         await checkAndResetStreak(user._id);
         res.cookie('token',token,{
-            httpOnly: true,
-            secure: true,          
-            sameSite: 'None',
+            // httpOnly: true,
+            // secure: true,          
+            // sameSite: 'None',
             maxAge:60*60*2000});
         res.status(200).json({
             user:reply,

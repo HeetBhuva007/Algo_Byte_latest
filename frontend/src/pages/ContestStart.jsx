@@ -5,6 +5,8 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axiosClient from "../utils/axiosClient"
 import { Clock, Code, Sun, Moon, ChevronRight, Target, CheckCircle, XCircle, Timer, Award } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 // Unchanged Button component
 const Button = ({ children, onClick, disabled, variant = "default", className = "", ...props }) => {
@@ -83,7 +85,9 @@ const ProblemCard = ({ problem, index, submission, onProblemClick }) => {
 export default function ContestStart() {
   const { contestId } = useParams();
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
+  const dispatch=useDispatch();
+  // const [darkMode, setDarkMode] = useState(false);
+  const darkMode=useSelector(state=>state.auth.isDark);
   const [contest, setContest] = useState(null);
   const [problems, setProblems] = useState([]);
   const [submissions, setSubmissions] = useState({}); // This will now be populated
@@ -227,7 +231,7 @@ export default function ContestStart() {
                 <Timer className="w-4 h-4 text-red-500" />
                 <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{timeRemaining}</span>
               </div>
-              <button onClick={() => setDarkMode(!darkMode)} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/60 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 backdrop-blur-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-all hover:scale-110 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
+              <button onClick={() => dispatch(setMode(!darkMode))} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/60 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 backdrop-blur-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-all hover:scale-110 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
                 {darkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
               </button>
             </div>

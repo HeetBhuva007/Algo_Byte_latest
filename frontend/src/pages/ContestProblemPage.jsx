@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, memo, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Editor from "@monaco-editor/react"
 import axiosClient from "../utils/axiosClient"
 import {
@@ -24,6 +24,7 @@ import {
   ArrowLeft,
   Timer,
 } from "lucide-react"
+import { setMode } from "../authSlice"
 
 
 const Toast = memo(({ message, type, onClose }) => {
@@ -135,8 +136,8 @@ export function ContestProblemPage() {
   const { contestId, problemId } = useParams()
   const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth)
-
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  const darkMode=useSelector(state=>state.auth.isDark)
   const [isEditorFullscreen, setIsEditorFullscreen] = useState(false)
   const [problem, setProblem] = useState(null)
   const [contest, setContest] = useState(null)
@@ -350,7 +351,7 @@ export function ContestProblemPage() {
               </div>
 
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => dispatch(setMode(!darkMode))}
                 className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
               >
                 {darkMode ? (

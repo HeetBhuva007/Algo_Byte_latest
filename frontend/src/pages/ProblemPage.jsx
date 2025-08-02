@@ -3,7 +3,7 @@ import { ChatAI } from "../customCompo/ChatAi";
 import { useEffect, useState, useCallback, memo, useRef } from "react";
 import { useParams, NavLink } from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Editor from "@monaco-editor/react";
 import * as monaco from "@monaco-editor/react";
 import logo from "../Images/logo.png";
@@ -46,6 +46,7 @@ import {
   Users, // Icon for the new Collaborate button
 } from "lucide-react";
 import Editorial from "../customCompo/Editorial";
+import { setMode } from "../authSlice";
 
 // Design System Tokens
 const designTokens = {
@@ -702,7 +703,8 @@ export function ProblemPage() {
   const [toast, setToast] = useState(null);
 
   // UI/Layout State
-  const [darkMode, setDarkMode] = useState(false);
+  //const [darkMode, setDarkMode] = useState(false);
+  const darkMode=useSelector((state)=>state.auth.isDark)
   const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
   const [isSidebarLayout, setIsSidebarLayout] = useState(false);
   const [activeTab, setActiveTab] = useState("description");
@@ -717,6 +719,7 @@ export function ProblemPage() {
   const editorRef = useRef(null);
   const liveRoomRef = useRef(null);
   const [roomUsers, setRoomUsers] = useState([]);
+  const dispatch=useDispatch();
 
   // ... (All socket and other useEffects remain the same, they are correct)
 
@@ -961,7 +964,7 @@ export function ProblemPage() {
               <div className="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-1"></div>
 
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => dispatch(setMode(!darkMode))}
                 className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
               >
                 {darkMode ? (

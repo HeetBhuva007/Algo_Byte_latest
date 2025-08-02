@@ -30,13 +30,14 @@ import {
 import axiosClient from "../utils/axiosClient"
 import socket from "../utils/socket"
 import { useDispatch, useSelector } from "react-redux"
-import { logoutUser } from "../authSlice"
+import { logoutUser, setMode } from "../authSlice"
 
 export function DiscussionForum() {
   const { user, userImage } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [darkMode, setDarkMode] = useState(false)
+  //const [darkMode, setDarkMode] = useState(false)
+  const darkMode=useSelector(state=>state.auth.isDark)
   const [posts, setPosts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPosts, setTotalPosts] = useState(0)
@@ -489,7 +490,7 @@ export function DiscussionForum() {
               </button>
             </Link>
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={() => dispatch(setMode(!darkMode))}
               className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 hover:shadow-[0_4px_15px_-2px_rgba(0,0,0,0.1)]"
               title="Toggle theme"
             >

@@ -6,6 +6,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import Editor from "@monaco-editor/react"
 import axiosClient from "../utils/axiosClient" // Ensure this path is correct
 import { Calendar, Clock, Code, Sun, Moon, ChevronDown, ChevronUp, CheckCircle, XCircle, Timer, MemoryStickIcon as Memory, Award, ArrowLeft, Eye, X, Copy } from 'lucide-react'
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 
 const Button = ({ children, onClick, disabled, variant = "default", className = "", ...props }) => {
@@ -252,7 +254,9 @@ const LeaderboardTable = ({ leaderboard, currentUserEmail }) => {
 export default function ContestViewSubmissions() {
   const { contestId } = useParams()
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  //const [darkMode, setDarkMode] = useState(false)
+  const darkMode=useSelector(state=>state.auth.isDark);
   const [contest, setContest] = useState(null)
   const [problems, setProblems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -356,7 +360,7 @@ export default function ContestViewSubmissions() {
               <ArrowLeft className="w-5 h-5" />
               <div className="p-1.5 rounded-lg bg-black dark:bg-white shadow-lg"><Code className="w-4 h-4 text-white dark:text-black" /></div>Back to Contests
             </button>
-            <button onClick={() => setDarkMode(!darkMode)} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 shadow-lg">
+            <button onClick={() => dispatch(setMode(!darkMode))} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 shadow-lg">
               {darkMode ? <Sun className="w-5 h-5 text-yellow-500 transition-transform duration-300 hover:rotate-180" /> : <Moon className="w-5 h-5 text-gray-700 transition-transform duration-300 hover:rotate-12" />}
             </button>
           </div>

@@ -5,6 +5,8 @@ import { useState, useEffect, memo } from "react"
 import { useNavigate } from "react-router-dom"
 import axiosClient from "../utils/axiosClient"
 import { Calendar, Clock, Trophy, Eye, Sun, Moon, ArrowLeft, CheckCircle } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 const Button = ({ children, onClick, disabled, variant = "default", className = "", ...props }) => {
   const baseClasses = "px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2"
@@ -86,7 +88,9 @@ const MyContestCard = ({ contest }) => {
 
 export default function MyContests() {
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  const darkMode=useSelector(state=>state.auth.isDark);
+  //const [darkMode, setDarkMode] = useState(false)
   const [myContests, setMyContests] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -123,7 +127,7 @@ export default function MyContests() {
             <Button variant="outline" onClick={() => navigate("/contest")} className="backdrop-blur-sm shadow-lg">
               <ArrowLeft className="w-4 h-4" />Back to All Contests
             </Button>
-            <button onClick={() => setDarkMode(!darkMode)} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 shadow-lg">
+            <button onClick={() => dispatch(setMode(!darkMode))} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 shadow-lg">
               {darkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
             </button>
           </div>

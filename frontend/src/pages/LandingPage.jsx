@@ -31,6 +31,8 @@ import {
   RotateCcw,
   Copy,
 } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 // Professional Toast Notification System
 const Toast = memo(({ message, type, onClose }) => {
@@ -496,7 +498,9 @@ const TestimonialCard = memo(({ name, role, company, content, avatar, rating = 5
 ))
 
 export function LandingPage() {
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  const darkMode=useSelector(state=>state.auth.isDark);
+  //const [darkMode, setDarkMode] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [toast, setToast] = useState(null)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -620,7 +624,7 @@ export function LandingPage() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={() => dispatch(setMode(!darkMode))}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
               title="Toggle theme"
             >

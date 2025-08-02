@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, memo, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { io } from "socket.io-client"
 import Editor from "@monaco-editor/react"
 
@@ -13,6 +13,7 @@ import {
   UserCheck, UserX, UserCog, ShieldQuestion
 } from "lucide-react"
 import socket from "../utils/socket"
+import { setMode } from "../authSlice"
 
 // --- Reusable UI Components (from your example) ---
 
@@ -84,8 +85,10 @@ export function BattleProblemPage() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const socketRef = useRef(null);
+  const dispatch=useDispatch();
+  const darkMode=useSelector(state=>state.auth.isDark);
 
-  const [darkMode, setDarkMode] = useState(false);
+  //const [darkMode, setDarkMode] = useState(false);
   const [isEditorFullscreen, setIsEditorFullscreen] = useState(false);
   
   const [battleDetails, setBattleDetails] = useState(null);
@@ -268,7 +271,7 @@ export function BattleProblemPage() {
 
             <div className="flex items-center gap-4">
               
-              <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <button onClick={() => dispatch(setMode(!darkMode))} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 {darkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
               <button onClick={handleExitBattle} className="flex items-center gap-2 px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-sm font-semibold rounded-lg hover:bg-red-500 hover:text-white dark:hover:bg-red-600 transition-all duration-200">

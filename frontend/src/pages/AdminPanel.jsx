@@ -15,6 +15,8 @@ import {
   Moon,
   ArrowRight,
 } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 const DynamicBackground = () => {
   return (
@@ -132,7 +134,9 @@ const cardData = [
 ]
 
 export function AdminPanel() {
-  const [darkMode, setDarkMode] = useState(false)
+  //const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch()
+  const darkMode=useSelector(state=>state.auth.isDark)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode)
@@ -152,7 +156,17 @@ export function AdminPanel() {
           />
         </div>
         </Link>
-            <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+        <button
+      onClick={() => dispatch(setMode(!darkMode))}
+      className="p-2.5 rounded-xl border bg-white/50 dark:bg-slate-800/50 border-gray-200 dark:border-slate-700/80 hover:bg-gray-200 dark:hover:bg-slate-800 transition-all duration-300"
+      title="Toggle theme"
+    >
+      {darkMode ? (
+        <Sun className="h-4 w-4 text-yellow-400" />
+      ) : (
+        <Moon className="h-4 w-4 text-slate-700" />
+      )}
+    </button>
           </div>
         </header>
 

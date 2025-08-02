@@ -5,6 +5,8 @@ import axiosClient from "../utils/axiosClient"
 import { useNavigate,Link } from "react-router-dom"
 import logo from "../Images/logo.png"
 import { Sun, Moon, Code, Search, Star } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 
 const useTypewriter = (text, speed = 80) => {
@@ -188,7 +190,9 @@ export function CreatePOTD() {
   const [problems, setProblems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  //const [darkMode, setDarkMode] = useState(false)
+  const darkMode=useSelector(state=>state.auth.isDark);
   const [activeFilter, setActiveFilter] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
 
@@ -276,7 +280,7 @@ export function CreatePOTD() {
         </div>
         </Link>
             <div className="flex items-center gap-3">
-                <button onClick={() => setDarkMode(!darkMode)} className="group rounded-xl border border-gray-200 bg-gray-100 p-2.5 transition-all duration-300 hover:scale-110 hover:bg-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700" title="Toggle theme">
+                <button onClick={() => dispatch(setMode(!darkMode))} className="group rounded-xl border border-gray-200 bg-gray-100 p-2.5 transition-all duration-300 hover:scale-110 hover:bg-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700" title="Toggle theme">
                     {darkMode ? <Sun className="h-4 w-4 text-yellow-500 transition-transform duration-300 group-hover:rotate-180" /> : <Moon className="h-4 w-4 text-gray-700 transition-transform duration-300 group-hover:rotate-12" />}
                 </button>
             </div>

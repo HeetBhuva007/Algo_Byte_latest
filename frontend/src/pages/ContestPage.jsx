@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom"
 import axiosClient from "../utils/axiosClient"
 import logo from "../Images/logo.png"
 import { Calendar, Clock, Users, Trophy, Play, Eye, Sun, Moon, Timer, Target } from "lucide-react"
+import { setMode } from "../authSlice"
+import { useDispatch, useSelector } from "react-redux"
 
 
 const CircuitBoardBackground = ({ isDark }) => {
@@ -231,11 +233,13 @@ const TabButton = ({ active, onClick, children, count }) => (
 
 export default function ContestPage() {
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
+  //const [darkMode, setDarkMode] = useState(false)
+  const darkMode=useSelector(state=>state.auth.isDark)
   const [activeTab, setActiveTab] = useState("upcoming")
   const [contests, setContests] = useState({ upcoming: [], ongoing: [], past: [] })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const dispatch=useDispatch()
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode)
@@ -299,7 +303,7 @@ export default function ContestPage() {
               <span className="hidden sm:inline">My Contests</span>
             </button>
             <button 
-              onClick={() => setDarkMode(!darkMode)} 
+              onClick={() =>dispatch(setMode(!darkMode))} 
               className="h-10 w-10 flex items-center justify-center rounded-lg bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-slate-200 dark:border-slate-800 hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-all duration-300"
             >
               {darkMode ? (

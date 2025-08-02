@@ -7,7 +7,8 @@ import {
     Swords, Users, Copy, Check, Sun, Moon, Play, Loader2, Link2, Crown, LogOut 
 } from "lucide-react";
 import socket from "../utils/socket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setMode } from "../authSlice";
 
 // --- Thematic Background ---
 const FloatingCodeBackground = ({ isDark }) => {
@@ -30,34 +31,16 @@ const FloatingCodeBackground = ({ isDark }) => {
     );
 };
 
-// BUG FIX: Corrected useTheme hook logic
-const useTheme = () => {
-    const [theme, setTheme] = useState(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedTheme = window.localStorage.getItem('theme');
-            if (storedTheme) return storedTheme;
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        return 'dark'; // Default theme
-    });
 
-    useEffect(() => {
-        document.documentElement.classList.remove('light', 'dark');
-        document.documentElement.classList.add(theme);
-        localStorage.setItem('theme', theme);
-    }, [theme]);
-
-    const toggleTheme = () => setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-
-    return { theme, toggleTheme };
-};
 
 // --- COMPONENT: Main Battle Page ---
 export default function BattlePage() {
     const { roomId } = useParams();
     const navigate = useNavigate();
     const { user: currentUser } = useSelector(state => state.auth);
-    const { theme, toggleTheme } = useTheme();
+    
+    const dispatch=useDispatch();
+    const darkMode=useSelector(state=>state.auth.isDark);
     const socketRef = useRef(null);
 
     const [players, setPlayers] = useState([]);
@@ -119,7 +102,7 @@ export default function BattlePage() {
             <FloatingCodeBackground isDark={theme === 'dark'} />
             
             <button
-                onClick={toggleTheme}
+                onClick={() => dispatch(setMode(!darkMode))}
                 className="absolute top-4 right-4 h-10 w-10 flex items-center justify-center rounded-lg bg-white/60 dark:bg-black/60 backdrop-blur-sm border border-slate-200 dark:border-slate-800 hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-all duration-300"
                 aria-label="Toggle theme"
             >

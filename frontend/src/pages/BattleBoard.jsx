@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { io } from "socket.io-client"
 import { motion, AnimatePresence } from "framer-motion"
 import axiosClient from "../utils/axiosClient" // Your configured Axios client
@@ -11,6 +11,7 @@ import {
 } from "lucide-react"
 import socket from "../utils/socket"
 import { memo } from "react"
+import { setMode } from "../authSlice"
 
 // --- Helper Components ---
 
@@ -48,13 +49,15 @@ export function BattleLeaderboard() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const socketRef = useRef(null);
+  const dispatch=useDispatch();
+  const darkMode=useSelector(state=>state.auth.isDark)
 
   const [leaderboard, setLeaderboard] = useState([]);
   const [battleInfo, setBattleInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isBattleOver, setIsBattleOver] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  // const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -161,7 +164,7 @@ export function BattleLeaderboard() {
               <p className="text-gray-500 dark:text-gray-400 mt-1">Problem: {battleInfo?.problemId?.title || "..."}</p>
             </div>
             <div className="flex items-center gap-3">
-                <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <button onClick={() => dispatch(setMode(!darkMode))} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                     {darkMode ? <Sun size={18} /> : <Moon size={18} />}
                 </button>
                 <button onClick={() => navigate('/battleRoom')} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-all duration-200">

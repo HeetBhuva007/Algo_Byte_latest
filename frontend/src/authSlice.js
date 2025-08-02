@@ -105,7 +105,8 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     problemsBySlice:null,
-    userImage:null
+    userImage:null,
+    isDark:false,
   },
   reducers: {
     setUser: (state, action) => {
@@ -114,6 +115,9 @@ const authSlice = createSlice({
     },
     setAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
+    },
+    setMode(state, action) {
+      state.isDark = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -221,5 +225,5 @@ const authSlice = createSlice({
   }
 });
 
-export const { setUser, setAuthenticated } = authSlice.actions;
+export const { setUser, setAuthenticated, setMode } = authSlice.actions;
 export default authSlice.reducer;

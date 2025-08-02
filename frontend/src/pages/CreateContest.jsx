@@ -18,6 +18,8 @@ import {
   X,
 } from "lucide-react"
 import axiosClient from "../utils/axiosClient"
+import { useDispatch, useSelector } from "react-redux"
+import { setMode } from "../authSlice"
 
 
 const Button = ({ children, onClick, disabled, variant = "default", className = "", ...props }) => {
@@ -439,7 +441,9 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, contestData }) => {
 
 export default function CreateContest() {
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
+  const dispatch=useDispatch();
+  //const [darkMode, setDarkMode] = useState(false)
+  const darkMode=useSelector(state=>state.auth.isDark);
   const [currentStep, setCurrentStep] = useState(0)
   const [completedSteps, setCompletedSteps] = useState([])
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -752,7 +756,7 @@ const handleSubmit = async () => {
         </Link>
 
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={() => dispatch(setMode(!darkMode))}
               className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110 shadow-lg"
             >
               {darkMode ? (

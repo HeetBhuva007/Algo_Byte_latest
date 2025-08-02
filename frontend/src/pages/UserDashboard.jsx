@@ -4,7 +4,7 @@
 import { useState, useEffect, memo, useRef, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import axiosClient from "../utils/axiosClient"
-import { allProblemsFetch, getUserImage } from "../authSlice"
+import { allProblemsFetch, getUserImage, setMode } from "../authSlice"
 import logo from "../Images/logo.png"
 import { Link } from "react-router-dom" // Corrected import
 import axios from "axios"
@@ -1591,6 +1591,7 @@ export function UserDashboard() {
   const problems = useSelector((state) => state.auth?.problemsBySlice || [])
   const [loading, setLoading] = useState(true)
   const [dashboardData, setDashboardData] = useState(null)
+  const darkMode=useSelector(state=>state.auth.isDark);
   const [theme, setTheme] = useState("light")
   const [brightness, setBrightness] = useState(100)
   const [showSettings, setShowSettings] = useState(false)
@@ -1624,6 +1625,10 @@ export function UserDashboard() {
     }
     fetchSubmissions();
   },[currentPage,totalPages])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode)
+  }, [darkMode])
   
   // Fetch user profile data
   useEffect(() => {
@@ -1831,12 +1836,16 @@ export function UserDashboard() {
               </div>
               <div className="flex items-center gap-4">
                 
-                <button
-                  onClick={() => setShowSettings(true)}
-                  className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
-                >
-                  <Settings className="h-5 w-5 text-gray-500" />
-                </button>
+              <button
+                onClick={() => dispatch(setMode(!darkMode))}
+                className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
+              >
+                {darkMode ? (
+                  <Sun size={16} className="text-yellow-500" />
+                ) : (
+                  <Moon size={16} className="text-gray-700" />
+                )}
+              </button>
                 <button
                   onClick={() => setShowProfile(true)}
                   className="flex items-center gap-2 p-1 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-105"
@@ -2327,17 +2336,6 @@ const SettingsModal = memo(({ isOpen, onClose, theme, setTheme, brightness, setB
               >
                 <Moon className="h-4 w-4" />
                 Dark
-              </button>
-              <button
-                onClick={() => handleThemeChange("system")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-all duration-300 hover:scale-105 ${
-                  theme === "system"
-                    ? "bg-black dark:bg-white text-white dark:text-black shadow-lg"
-                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-                }`}
-              >
-                <Monitor className="h-4 w-4" />
-                System
               </button>
             </div>
           </div>
